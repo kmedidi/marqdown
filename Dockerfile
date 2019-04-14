@@ -11,4 +11,4 @@ COPY . /marqdown
 RUN cd /marqdown; npm install
 
 EXPOSE  9001
-CMD ["node", "/marqdown/server.js"];
+CMD ["node", "/marqdown/server.js", "start", "9001"];

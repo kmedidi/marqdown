@@ -2,6 +2,7 @@ var express = require('express')
 var fs      = require('fs')
 var app = express()
 var marqdown = require('./marqdown.js');
+var bodyParser = require('body-parser');
 
 var args = process.argv.slice(2);
 var CMD  = args[0] || "test";
@@ -9,12 +10,25 @@ var CMD  = args[0] || "test";
 var PORT = args.length == 2? args[1] : 9001;
 // var id = Math.floor(Math.random()*1000);
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
 app.get('/', function(req, res) 
 {
-    // res.send("Hi Marqdown"+id);
-    // var text = marqdown.testing("TESTING");
-    // var text = marqdown.render( req.body.markdown );
-    res.send( {preview: text} );
+	var text = marqdown.testing("Hi Marqdown working");
+    res.send({preview: text});
+});
+
+app.post('/render', function(req, res) 
+{
+	// Use try block and return error
+    var text = marqdown.render( req.body.markdown );
+	res.send({preview: text});
+	console.log("\n\nProcessing over\n");
+	console.log(text);
+	// res.send(req.body.markdown);
 });
 
 function start() 
