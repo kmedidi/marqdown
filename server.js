@@ -17,7 +17,8 @@ app.use(bodyParser.json());
 
 app.get('/', function(req, res) 
 {
-	var text = marqdown.testing("Hi Marqdown working");
+	var sample_data = fs.readFileSync('index.html');
+	var text = marqdown.testing(sample_data);
     res.send({preview: text});
 });
 
